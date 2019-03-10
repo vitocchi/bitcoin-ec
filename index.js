@@ -1,5 +1,5 @@
 const express = require('express')
-const bitcoin = require('./public/js/bitcoinjs_4.0.2.js')
+const bitcoin = require('bitcoinjs-lib')
 const app = express()
 
 app.get('/', (req, res) => res.json({
@@ -11,7 +11,7 @@ app.get('/invoice', (req, res) => {
     })
 })
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log('Listening on port 3000...'))
 
 // order_idとamountからインボイスを作成する
 function createNewInvoice(order_id, amount) {
