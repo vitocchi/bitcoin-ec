@@ -1,0 +1,22 @@
+{
+  "name": "bitcoin-ec",
+  "version": "1.0.0",
+  "description": "e comrece ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitocchi/bitcoin-ec.git"
+  },
+  "author": "vitocchi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vitocchi/bitcoin-ec/issues"
+  },
+  "homepage": "https://github.com/vitocchi/bitcoin-ec#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
