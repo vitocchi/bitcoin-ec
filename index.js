@@ -48,6 +48,7 @@ function generateBIP21Invoice(address, amount) {
 
 // indexから子拡張公開鍵を作成する
 function generatePurchasePubkey(pubkeyIndex) {
-    const tpub = 'tpubD6NzVbkrYhZ4Y3eYE9P23eLeNbkaKgVTv88Wu47GWqLs7XuDPwCcJSkZtJnWtd6y1WXXrEZHrzdLPNYKSvdxnWmXtDB8bDinobZpdTrdh2R'
+    // 親の拡張公開鍵
+    const tpub = 'tpubD6NzVbkrYhZ4WPFuszbfRUpT4bM7YP9wt89dY5WGm2jXiB2wLGMsEu4hmKrFHXZiGAqSeDM2FaUFsEdujD39efXjwZrVDW5C5nggZunjX2d'
     return bitcoin.bip32.fromBase58(tpub, bitcoin.networks.testnet).derive(parseInt(pubkeyIndex)).publicKey
 }
