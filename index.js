@@ -27,18 +27,7 @@ function generateMultiSigAddress(pubkeyIndex) {
         purchasePubkey,
         foreignPubkey
     ]
-    const payment = bitcoin.payments.p2sh({
-        network: bitcoin.networks.testnet,
-        redeem: bitcoin.payments.p2wsh({
-            network: bitcoin.networks.testnet,
-            redeem: bitcoin.payments.p2ms({
-                network: bitcoin.networks.testnet,
-                m: 2,
-                pubkeys,
-            }),
-        }),
-    })
-    return payment.address
+    return multiSigAddressFromKeys(pubkeys)
 }
 
 // アドレスと数量からインボイスを作成する
@@ -51,4 +40,27 @@ function generatePurchasePubkey(pubkeyIndex) {
     // 親の拡張公開鍵
     const tpub = 'tpubD6NzVbkrYhZ4WPFuszbfRUpT4bM7YP9wt89dY5WGm2jXiB2wLGMsEu4hmKrFHXZiGAqSeDM2FaUFsEdujD39efXjwZrVDW5C5nggZunjX2d'
     return bitcoin.bip32.fromBase58(tpub, bitcoin.networks.testnet).derive(parseInt(pubkeyIndex)).publicKey
+}
+
+function multiSigAddressFromKeys(pubkeys) {
+    // まずP2MSマルチシグのペイメントを作る
+    const p2msPayment = bitcoin.payments.p2ms({
+        network: bitcoin.networks.testnet,
+        m: 2,
+        pubkeys
+    })
+
+    // Segwitのペイメントにする
+    const p2wshPayment = bitcoin.payments.p2wsh({
+        network: bitcoin.networks.testnet,
+        redeem: p2msPayment
+    })
+
+    // P2SH (locking scriptのデジタルハッシュ化したものをScriptPubkeyとする)に変換する
+    const p2shPayment = bitcoin.payments.p2sh({
+        network: bitcoin.networks.testnet,
+        redeem: p2wshPayment
+    })
+
+    return p2shPayment.address
 }
